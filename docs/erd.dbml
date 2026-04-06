@@ -1,0 +1,90 @@
+Table customer {
+  customer_id int [primary key, increment]
+  customer_name varchar(255) [not null]
+  address varchar(255)
+  pic_name varchar(255) [not null]
+  primary_mail varchar(255) [not null]
+  secondary_mail varchar(255)
+  phone_number varchar(30) [not null]
+  status enum ('aktif', 'non-aktif')
+}
+
+Table product {
+  product_id int [primary key, increment]
+  product_name varchar(255) [not null]
+  bandwidth int [not null]
+  type enum('dedicated', 'broadband', 'vpn')
+}
+
+Table service {
+  service_id int [primary key, increment]
+  customer_id int [not null]
+  product_id int [not null]
+  ip_address inet [not null]
+  activated_ad datetime
+  status enum('aktif','isolir','non-aktif')
+}
+
+
+Table gateway {
+  gateway_id int [primary key, increment]
+  gateway_name varchar(255) [not null]
+  ip_address inet [not null, unique]
+  gateway_type enum('core', 'distribution', 'access') [not null]
+  parent_gateway_id int
+  status enum('up','down') [default: 'up']
+}
+
+Table link {
+  link_id int [primary key, increment]
+  link_name varchar(255) [not null]
+  src_gateway_id int [not null]
+  dst_gateway_id int [not null]
+  bandwidth int [not null]
+  provider_id int
+  status enum('up','down') [default: 'up']
+}
+
+Table provider {
+  provider_id int [primary key, increment]
+  provider_name varchar(255) [not null]
+  as_number varchar(10)
+  pic_name varchar(255) [not null]
+  mail varchar(255) [not null]
+  phone_number varchar(30) [not null]
+}
+
+
+Table path {
+  path_id int [primary key, increment]
+  service_id int
+  version int [not null]
+  is_active boolean [default: true]
+  effective_from datetime [not null]
+  description text
+}
+
+Table path_detail {
+  path_detail_id int [primary key, increment]
+  path_id int [not null]
+  link_id int [not null]
+  step_order int [not null] 
+}
+
+
+
+Ref: "link"."provider_id" < "provider"."provider_id"
+
+Ref: "link"."dst_gateway_id" < "gateway"."gateway_id"
+
+Ref: "link"."src_gateway_id" < "gateway"."gateway_id"
+
+Ref: "path"."service_id" < "service"."service_id"
+
+Ref: "path_detail"."link_id" < "link"."link_id"
+
+Ref: "path_detail"."path_id" < "path"."path_id"
+
+Ref: "service"."product_id" < "product"."product_id"
+
+Ref: "service"."customer_id" < "customer"."customer_id"
