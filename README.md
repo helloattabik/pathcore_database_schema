@@ -5,14 +5,14 @@
 
 ---
 
-## 🚩 Latar Belakang (Problem Statement)
+## Latar Belakang (Problem Statement)
 Dalam operasional ISP, gangguan massal seperti *device failure*, *link down*, atau masalah pada *upstream* sering kali menjadi momen kritis. Kendala utama yang dihadapi adalah:
 * **Identifikasi Manual:** Proses menentukan pelanggan mana saja yang terdampak sering kali memakan waktu lama karena data tersebar.
 * **Faktor Memori Manusia:** Teknisi sering kali harus mengandalkan ingatan terhadap ratusan topologi yang kompleks untuk menentukan jalur routing.
 * **Inefisiensi SLA:** Keterlambatan identifikasi menghambat pengiriman notifikasi ke pelanggan dan pendokumentasian laporan SLA (*Service Level Agreement*).
 * **Risiko Operasional:** Proses identifikasi yang lambat berisiko menurunkan tingkat kepuasan pelanggan dan akurasi data laporan ke manajemen.
 
-## 💡 Solusi: PathCore
+## Solusi: PathCore
 PathCore hadir untuk memetakan hubungan antara infrastruktur fisik (Gateway, Link, Upstream) dengan layanan logika pelanggan melalui database relasional yang terstruktur. 
 
 ### Fitur Utama:
@@ -23,22 +23,11 @@ PathCore hadir untuk memetakan hubungan antara infrastruktur fisik (Gateway, Lin
 
 ---
 
-## 🛠️ Perancangan Basis Data (ERD)
-
+## Perancangan Basis Data (ERD)
 Desain database PathCore difokuskan pada kecepatan *query* untuk mendapatkan data pelanggan dari titik gangguan terkecil sekalipun.
-
-### Tautan ERD
-Anda dapat melihat rancangan database secara interaktif melalui tautan berikut:
 🔗 **[Live ERD - PathCore Dashboard](https://dbdiagram.io/d/db_pathcore_dashbord-69d1485a80896296841ca27b)**
 
-### Logika Relasi Utama:
-1. **Core Infrastructure:** Tabel `gateways` dan `providers` mendefinisikan aset fisik.
-2. **Path Mapping:** Tabel `routing_paths` menghubungkan gateway ke provider dan menentukan peran link (Main/Backup).
-3. **Impact Bridge:** Tabel `ip_allocations` menjadi jembatan antara teknis jaringan (`routing_paths`) dan data layanan pelanggan (`subscriptions`).
-
----
-
-## 🔄 Alur Kerja Sistem (System Workflow)
+## System Workflow
 
 1. **Input Data:**
    - **Marketing/Admin:** Menginput data pelanggan, produk, dan status layanan.
